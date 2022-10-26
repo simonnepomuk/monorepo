@@ -1,0 +1,10 @@
+{
+  "name": "sveltekit-adapter-firebase",
+  "version": "0.0.3",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simonnepomuk/monorepo.git"
+  },
+  "type": "module"
+}

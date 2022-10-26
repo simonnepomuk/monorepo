@@ -1,0 +1,35 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/sveltekit-adapter-firebase/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/sveltekit-adapter-firebase/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/sveltekit-adapter-firebase"],
+      "options": {
+        "jestConfig": "libs/sveltekit-adapter-firebase/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/sveltekit-adapter-firebase",
+        "tsConfig": "libs/sveltekit-adapter-firebase/tsconfig.lib.json",
+        "packageJson": "libs/sveltekit-adapter-firebase/package.json",
+        "main": "libs/sveltekit-adapter-firebase/index.ts",
+        "assets": ["libs/sveltekit-adapter-firebase/*.md"],
+        "source": false
+      }
+    }
+  },
+  "tags": []
+}

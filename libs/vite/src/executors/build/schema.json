@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "title": "Build executor",
+  "description": "",
+  "type": "object",
+  "properties": {
+    "outputPath": {
+      "type": "string",
+      "description": "The output path of the generated files."
+    },
+    "generatePackageJson": {
+      "type": "object",
+      "properties": {
+        "main": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "engines": {
+          "type": "object"
+        }
+      },
+      "description": "Generate a package.json file with the dependencies of the generated files."
+    },
+    "emptyOutDir": {
+      "type": "boolean",
+      "description": "Delete the output path before generating the files."
+    },
+    "sourceMap": {
+      "type": "boolean",
+      "description": "Generate source maps for the generated files."
+    }
+  },
+  "required": []
+}
