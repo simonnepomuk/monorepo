@@ -31,7 +31,7 @@ export default {
   },
 };
 ```
-- add `firebase.json` in project root:
+- add `firebase.json` next to build folder:
 ```
 {
   "hosting": {
@@ -112,7 +112,7 @@ export default {
 }
 ```
 ### Monorepo
-Through the `outDir` configuration option the adapter should provide monorepo support (tested with Nx).
+Through the `outDir` configuration option the adapter should provide monorepo support (tested with Nx).  
 `svelte.config.js`
 ```
 /** @type {import('@sveltejs/kit').Config} */
