@@ -6,23 +6,25 @@ import {HttpsOptions} from 'firebase-functions/lib/v2/providers/https';
 
 const distPath = fileURLToPath(new URL('.', import.meta.url).href);
 
-export default function ({
-                           outDir = 'build',
-                           functionName = 'handler',
-                           v2 = true,
-                           nodeVersion = '16',
-                           functionOptions = {concurrency: 500},
-                         }: {
+export type AdapterOptions = {
   outDir?: string;
   functionName?: string;
   v2?: boolean;
   nodeVersion: '14' | '16';
   functionOptions?: HttpsOptions;
-}) {
+};
+export default function (options: AdapterOptions) {
   return {
     name: '@outcom/adapter-firebase',
-
     async adapt(builder: Builder) {
+      const {
+        outDir = 'build',
+        v2 = true,
+        functionOptions = {concurrency: 500},
+        functionName = 'handler',
+        nodeVersion = '16'
+      }: AdapterOptions = options;
+
       // empty out existing build directories
       builder.rimraf(outDir);
       builder.rimraf('.firebase');
