@@ -13,17 +13,17 @@ export type AdapterOptions = {
   nodeVersion: '14' | '16';
   functionOptions?: HttpsOptions;
 };
-export default function (options: AdapterOptions) {
+export default function (options?: AdapterOptions) {
   return {
     name: '@outcom/adapter-firebase',
     async adapt(builder: Builder) {
-      const {
-        outDir = 'build',
-        v2 = true,
-        functionOptions = {concurrency: 500},
-        functionName = 'handler',
-        nodeVersion = '16'
-      }: AdapterOptions = options;
+      const {outDir, v2, functionOptions, functionName, nodeVersion}: AdapterOptions = options || {
+        outDir: 'build',
+        v2: true,
+        functionOptions: {concurrency: 500},
+        functionName: 'handler',
+        nodeVersion: '16'
+      };
 
       // empty out existing build directories
       builder.rimraf(outDir);
