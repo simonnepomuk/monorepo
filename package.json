@@ -40,6 +40,7 @@
     "jest-environment-jsdom": "28.1.1",
     "jest-preset-angular": "~12.2.2",
     "jsonc-eslint-parser": "^2.1.0",
+    "ngx-deploy-npm": "^4.3.1",
     "nx": "14.7.6",
     "prettier": "^2.6.2",
     "prettier-plugin-svelte": "^2.7.0",

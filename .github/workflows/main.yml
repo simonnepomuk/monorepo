@@ -24,6 +24,18 @@ jobs:
       - run: npx nx affected --target=lint --parallel=3
       - run: npx nx affected --target=test --parallel=3 --ci --code-coverage
       - run: npx nx affected --target=build --parallel=3
-      - name: Deploy
+      - name: Version
         if: github.ref == 'refs/heads/main'
-        run: npx nx affected --target=deploy
+        run: npm nx affected --base=last-release --target=version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Tag last-release
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git tag -f last-release
+          git push origin last-release --force
+      - name: Publish to NPM
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        if: github.ref == 'refs/heads/main'
+        run: npm nx affected publish
