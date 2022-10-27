@@ -26,7 +26,7 @@ jobs:
       - run: npx nx affected --target=build --parallel=3
       - name: Version
         if: github.ref == 'refs/heads/main'
-        run: npm nx affected --base=last-release --target=version
+        run: npx nx affected --base=last-release --target=version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Tag last-release
@@ -38,4 +38,4 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         if: github.ref == 'refs/heads/main'
-        run: npm nx affected publish
+        run: npx nx affected publish
