@@ -140,7 +140,7 @@ export default {
 };
 ```
 
-`firebase.json` in project root
+`firebase.json` in project root:
 
 ```
 {

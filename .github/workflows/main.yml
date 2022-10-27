@@ -18,6 +18,10 @@ jobs:
           node-version: 16
           cache: 'npm'
       - uses: nrwl/nx-set-shas@v3
+      - name: Setup Git
+        run: |
+          git config user.name "GitHub Bot"
+          git config user.email "gituser@example.com"
       - run: npm ci
       - run: npx nx workspace-lint
       - run: npx nx format:check --verbose
