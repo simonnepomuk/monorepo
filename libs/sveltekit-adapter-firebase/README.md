@@ -61,7 +61,7 @@ export default {
 
 The following snippet shows the default configuration.  
 V2 is used by default because it allows for concurrency which should drastically reduce costs and cold-starts.  
-For further documentation on the functionOptions parameter visit the official [Firebase documentation](https://firebase.google.com/docs/functions/beta/reference/firebase-functions.https.httpsoptions.md)
+For further documentation on the functionOptions parameter visit the official [Firebase documentation](https://firebase.google.com/docs/functions/beta/reference/firebase-functions.https.httpsoptions.md).
 
 ```
 /** @type {import('@sveltejs/kit').Config} */
