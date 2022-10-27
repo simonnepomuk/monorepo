@@ -29,6 +29,12 @@
         "assets": ["libs/sveltekit-adapter-firebase/*.md"],
         "source": false
       }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "angular"
+      }
     }
   },
   "tags": []

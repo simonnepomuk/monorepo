@@ -1,8 +1,8 @@
-import {readFileSync, writeFileSync} from 'fs';
-import {join} from 'path';
-import {fileURLToPath} from 'url';
-import {Builder} from '@sveltejs/kit';
-import {HttpsOptions} from 'firebase-functions/lib/v2/providers/https';
+import { readFileSync, writeFileSync } from 'fs';
+import { join } from 'path';
+import { fileURLToPath } from 'url';
+import { Builder } from '@sveltejs/kit';
+import { HttpsOptions } from 'firebase-functions/lib/v2/providers/https';
 
 const distPath = fileURLToPath(new URL('.', import.meta.url).href);
 
@@ -17,12 +17,18 @@ export default function (options?: AdapterOptions) {
   return {
     name: '@outcom/adapter-firebase',
     async adapt(builder: Builder) {
-      const {outDir, v2, functionOptions, functionName, nodeVersion}: AdapterOptions = options || {
+      const {
+        outDir,
+        v2,
+        functionOptions,
+        functionName,
+        nodeVersion,
+      }: AdapterOptions = options || {
         outDir: 'build',
         v2: true,
-        functionOptions: {concurrency: 500},
+        functionOptions: { concurrency: 500 },
         functionName: 'handler',
-        nodeVersion: '16'
+        nodeVersion: '16',
       };
 
       // empty out existing build directories
@@ -79,7 +85,7 @@ async function generateCloudFunction(
     return !name.includes('adapter') && name.endsWith('.js');
   };
 
-  builder.copy(`${distPath}`, join(publish, '.firebase'), {filter, replace});
+  builder.copy(`${distPath}`, join(publish, '.firebase'), { filter, replace });
 
   builder.log.minor('Generating cloud function...');
 
@@ -90,9 +96,9 @@ async function generateCloudFunction(
 
   const initImport = `import { init } from './../function.js';`;
   const firebaseImportV2 = `import { onRequest } from 'firebase-functions/v2/https';`;
-  const functionConstV2 = `export const ${functionName} = onRequest(${functionOptions ? JSON.stringify(
-    functionOptions
-  ) + ', ' : ''}init(${manifest}, ${v2}));`;
+  const functionConstV2 = `export const ${functionName} = onRequest(${
+    functionOptions ? JSON.stringify(functionOptions) + ', ' : ''
+  }init(${manifest}, ${v2}));`;
   const firebaseImportV1 = `import { https } from 'firebase-functions';`;
   const functionConstV1 = `export const ${functionName} = https.onRequest(init(${manifest}));`;
   const renderFunctionFile = `${initImport}\n${

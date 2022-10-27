@@ -16,14 +16,10 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@outcom/sveltekit-adapter-firebase": [
+      "@nepomuk/sveltekit-adapter-firebase": [
         "libs/sveltekit-adapter-firebase/src/index.ts"
       ],
-      "@nepmuk/api-interfaces": ["libs/api-interfaces/src/index.ts"],
-      "@nepmuk/sveltekit-adapter-firebase": [
-        "libs/sveltekit-adapter-firebase/src/index.ts"
-      ],
-      "@nepmuk/vite": ["libs/vite/src/index.ts"]
+      "@nepomuk/vite": ["libs/vite/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

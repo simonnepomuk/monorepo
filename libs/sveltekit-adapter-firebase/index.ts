@@ -1,2 +1,1 @@
-export {default} from './src/lib/adapter.js';
-
+export { default } from './src/lib/adapter.js';

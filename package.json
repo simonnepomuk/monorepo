@@ -1,5 +1,5 @@
 {
-  "name": "nepmuk",
+  "name": "@simonnepomuk/monorepo",
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
@@ -14,7 +14,9 @@
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
+    "@commitlint/config-angular": "^17.0.0",
     "@commitlint/config-conventional": "^17.1.0",
+    "@jscutlery/semver": "^2.27.1",
     "@nrwl/cli": "14.7.6",
     "@nrwl/devkit": "14.7.11",
     "@nrwl/eslint-plugin-nx": "14.7.6",
@@ -23,7 +25,7 @@
     "@nrwl/linter": "14.7.6",
     "@nrwl/node": "14.7.6",
     "@nrwl/nx-plugin": "^14.7.11",
-    "@nrwl/workspace": "14.7.6",
+    "@nrwl/workspace": "^14.7.6",
     "@sveltejs/kit": "next",
     "@types/execa": "^2.0.0",
     "@types/jest": "^29.2.0",
@@ -33,13 +35,11 @@
     "eslint": "~8.15.0",
     "eslint-config-prettier": "8.1.0",
     "execa": "^5.1.1",
-    "firebase-functions": "^3.24.1",
     "husky": "^8.0.1",
     "jest": "28.1.1",
     "jest-environment-jsdom": "28.1.1",
     "jest-preset-angular": "~12.2.2",
     "jsonc-eslint-parser": "^2.1.0",
-    "lint-staged": "^13.0.3",
     "nx": "14.7.6",
     "prettier": "^2.6.2",
     "prettier-plugin-svelte": "^2.7.0",
@@ -47,5 +47,9 @@
     "ts-node": "^10.9.1",
     "tslib": "^2.3.1",
     "typescript": "~4.7.4"
+  },
+  "dependencies": {
+    "@sveltejs/kit": "next",
+    "firebase-functions": "^3.24.1"
   }
 }
