@@ -118,6 +118,8 @@ function generateProductionPackageJson(
   const packageJsonString = readFileSync('package.json');
   const packageJson = JSON.parse(packageJsonString.toString());
   const firebaseConfig = {
+    //Firebase doesn't handle overlapping dev and prod dependencies well, so we set devDeps to null as they are not needed anyway
+    devDependencies: null,
     dependencies: {
       ...packageJson.dependencies,
       'firebase-functions': '^3.24.1',
