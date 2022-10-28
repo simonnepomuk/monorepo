@@ -17,6 +17,7 @@ jobs:
         with:
           node-version: 16
           cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
       - uses: nrwl/nx-set-shas@v3
       - name: Setup Git
         run: |
