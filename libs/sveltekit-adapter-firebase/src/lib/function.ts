@@ -49,6 +49,7 @@ export function init(
     await setResponse(
       res,
       await server.respond(request, {
+        platform: res.locals,
         getClientAddress() {
           return (
             (<string>req.headers['X-Forwarded-For']).split(',')[0] ||
