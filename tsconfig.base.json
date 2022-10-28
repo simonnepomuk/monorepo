@@ -18,8 +18,7 @@
     "paths": {
       "@nepomuk/sveltekit-adapter-firebase": [
         "libs/sveltekit-adapter-firebase/src/index.ts"
-      ],
-      "@nepomuk/vite": ["libs/vite/src/index.ts"]
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]
