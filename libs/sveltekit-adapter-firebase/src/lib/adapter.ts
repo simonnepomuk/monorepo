@@ -120,7 +120,7 @@ function generateProductionPackageJson(
   const firebaseConfig = {
     dependencies: {
       ...packageJson.dependencies,
-      'firebase-functions': '^3.24.1',
+      'firebase-functions': '^4.0.1',
       '@sveltejs/kit': 'next',
     },
     main: '.firebase/functions/render.js',
