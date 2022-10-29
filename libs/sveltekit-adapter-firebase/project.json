@@ -34,7 +34,10 @@
       "executor": "@jscutlery/semver:version",
       "options": {
         "preset": "angular",
-        "postTargets": ["sveltekit-adapter-firebase:deploy", "sveltekit-adapter-firebase:github"]
+        "postTargets": [
+          "sveltekit-adapter-firebase:deploy",
+          "sveltekit-adapter-firebase:github"
+        ]
       }
     },
     "github": {
