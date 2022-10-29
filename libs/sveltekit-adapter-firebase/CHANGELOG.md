@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.1](https://github.com/simonnepomuk/monorepo/compare/sveltekit-adapter-firebase-0.1.0...sveltekit-adapter-firebase-0.1.1) (2022-10-29)
+
+
+### Bug Fixes
+
+* upgrade firebase-functions package version for production package.json ([05053d9](https://github.com/simonnepomuk/monorepo/commit/05053d9f94a44529d61efa5f70fddeb1c9c0dcf8))
+
+
+
 # 0.1.0 (2022-10-28)
 
 ### Bug Fixes
