@@ -33,7 +33,8 @@
     "version": {
       "executor": "@jscutlery/semver:version",
       "options": {
-        "preset": "angular"
+        "preset": "angular",
+        "postTargets": ["frontend:deploy", "frontend:github"]
       }
     },
     "github": {
