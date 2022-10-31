@@ -1,7 +1,5 @@
 # Add files here to ignore them from prettier formatting
 
-/dist
-/coverage
-**/.svelte-kit/**
-**/node_modules/**
+/.svelte-kit
+/node_modules
 **/CHANGELOG.md

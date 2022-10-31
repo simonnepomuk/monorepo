@@ -11,11 +11,10 @@
       }
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/sveltekit-adapter-firebase"],
+      "executor": "nx:run-commands",
       "options": {
-        "jestConfig": "libs/sveltekit-adapter-firebase/jest.config.ts",
-        "passWithNoTests": true
+        "command": "vitest run",
+        "cwd": "libs/sveltekit-adapter-firebase"
       }
     },
     "build": {
