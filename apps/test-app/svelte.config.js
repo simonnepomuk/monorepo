@@ -10,8 +10,8 @@ const config = {
   kit: {
     adapter: adapter({ outDir: '../../dist/apps/test-app' }),
     csrf: {
-      checkOrigin: false
-    }
+      checkOrigin: false,
+    },
   },
 };
 

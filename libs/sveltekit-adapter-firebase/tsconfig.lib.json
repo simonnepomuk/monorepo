@@ -6,6 +6,11 @@
     "types": ["node"],
     "sourceMap": false
   },
-  "exclude": ["jest.config.ts", "**/*.spec.ts", "**/*.test.ts", "vitest.config.ts"],
+  "exclude": [
+    "jest.config.ts",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "vitest.config.ts"
+  ],
   "include": ["**/*.ts"]
 }
