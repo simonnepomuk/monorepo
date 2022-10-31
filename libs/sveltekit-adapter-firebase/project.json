@@ -26,8 +26,7 @@
         "packageJson": "libs/sveltekit-adapter-firebase/package.json",
         "main": "libs/sveltekit-adapter-firebase/index.ts",
         "assets": ["libs/sveltekit-adapter-firebase/*.md"],
-        "source": false,
-        "rootDir": "./../../"
+        "source": false
       }
     },
     "version": {
