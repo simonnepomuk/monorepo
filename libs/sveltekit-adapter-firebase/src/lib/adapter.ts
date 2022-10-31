@@ -10,12 +10,12 @@ export type AdapterOptions = {
   outDir?: string;
   functionName?: string;
   v2?: boolean;
-  nodeVersion: '14' | '16';
+  nodeVersion?: '14' | '16';
   functionOptions?: HttpsOptions;
 };
 export default function (options?: AdapterOptions) {
   return {
-    name: '@outcom/adapter-firebase',
+    name: 'sveltekit-adapter-firebase',
     async adapt(builder: Builder) {
       const {
         outDir,
@@ -23,17 +23,17 @@ export default function (options?: AdapterOptions) {
         functionOptions,
         functionName,
         nodeVersion,
-      }: AdapterOptions = options || {
+      }: AdapterOptions = {
         outDir: 'build',
         v2: true,
-        functionOptions: { concurrency: 500 },
         functionName: 'handler',
         nodeVersion: '16',
+        ...options,
+        functionOptions: { concurrency: 500, ...options?.functionOptions },
       };
 
       // empty out existing build directories
       builder.rimraf(outDir);
-      builder.rimraf('.firebase');
 
       builder.log.minor(`Publishing to "${outDir}"`);
 
@@ -46,33 +46,33 @@ export default function (options?: AdapterOptions) {
         throw new Error('Function options can only be used with v2 functions');
       }
 
-      await generateCloudFunction(
+      builder.log.info('Generating cloud function for Firebase...');
+
+      await generateCloudFunction({
         builder,
         outDir,
         v2,
-        nodeVersion,
         functionName,
-        functionOptions
-      );
+        functionOptions,
+      });
 
       builder.log.info('Generating production package.json for Firebase...');
 
-      generateProductionPackageJson(outDir, nodeVersion);
+      generateProductionPackageJson({ outDir, nodeVersion });
     },
   };
 }
 
-async function generateCloudFunction(
-  builder: Builder,
-  publish: string,
-  v2: boolean,
-  nodeVersion: '14' | '16',
-  functionName: string,
-  functionOptions: unknown
-) {
-  builder.mkdirp(join(publish, '.firebase', 'functions'));
+async function generateCloudFunction({
+  builder,
+  outDir,
+  v2,
+  functionName,
+  functionOptions,
+}: { builder: Builder } & Omit<AdapterOptions, 'nodeVersion'>) {
+  builder.mkdirp(join(outDir, '.firebase', 'functions'));
 
-  builder.writeServer(join(publish, '.firebase', 'server'));
+  builder.writeServer(join(outDir, '.firebase', 'server'));
 
   const replace = {
     '0SERVER': './server/index.js', // digit prefix prevents CJS build from using this as a variable name, which would also get replaced
@@ -85,7 +85,7 @@ async function generateCloudFunction(
     return !name.includes('adapter') && name.endsWith('.js');
   };
 
-  builder.copy(`${distPath}`, join(publish, '.firebase'), { filter, replace });
+  builder.copy(`${distPath}`, join(outDir, '.firebase'), { filter, replace });
 
   builder.log.minor('Generating cloud function...');
 
@@ -98,7 +98,7 @@ async function generateCloudFunction(
   const firebaseImportV2 = `import { onRequest } from 'firebase-functions/v2/https';`;
   const functionConstV2 = `export const ${functionName} = onRequest(${
     functionOptions ? JSON.stringify(functionOptions) + ', ' : ''
-  }init(${manifest}, ${v2}));`;
+  }init(${manifest}));`;
   const firebaseImportV1 = `import { https } from 'firebase-functions';`;
   const functionConstV1 = `export const ${functionName} = https.onRequest(init(${manifest}));`;
   const renderFunctionFile = `${initImport}\n${
@@ -106,22 +106,21 @@ async function generateCloudFunction(
   }\n\n${v2 ? functionConstV2 : functionConstV1}\n`;
 
   writeFileSync(
-    join(publish, '.firebase', 'functions', 'render.js'),
+    join(outDir, '.firebase', 'functions', 'render.js'),
     renderFunctionFile
   );
 }
 
-function generateProductionPackageJson(
-  outDir: string,
-  nodeVersion: '14' | '16'
-) {
+function generateProductionPackageJson({
+  outDir,
+  nodeVersion,
+}: Pick<AdapterOptions, 'outDir' | 'nodeVersion'>) {
   const packageJsonString = readFileSync('package.json');
   const packageJson = JSON.parse(packageJsonString.toString());
   const firebaseConfig = {
     dependencies: {
-      ...packageJson.dependencies,
+      ...packageJson?.dependencies,
       'firebase-functions': '^4.0.1',
-      '@sveltejs/kit': 'next',
     },
     main: '.firebase/functions/render.js',
     engines: {

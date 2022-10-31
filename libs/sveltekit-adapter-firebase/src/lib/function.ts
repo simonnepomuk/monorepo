@@ -8,14 +8,10 @@ import {
   Request as ExpressRequest,
   Response as ExpressResponse,
 } from 'express';
-import { getRequest, setResponse } from '@sveltejs/kit/node';
-
-const BODY_SIZE_LIMIT_V1 = 10485760;
-const BODY_SIZE_LIMIT_V2 = 33554432;
+import { HttpMethod } from '@sveltejs/kit/types/private';
 
 export function init(
-  manifest: SSRManifest,
-  v2: boolean
+  manifest: SSRManifest
 ): (
   request: ExpressRequest,
   response: ExpressResponse
@@ -35,30 +31,41 @@ export function init(
     let request;
 
     try {
-      request = await getRequest({
-        base: getOrigin(req.headers),
-        request: req,
-        bodySizeLimit: v2 ? BODY_SIZE_LIMIT_V2 : BODY_SIZE_LIMIT_V1,
-      });
+      request = isGetOrPatchRequest(<HttpMethod>req.method)
+        ? new Request(getOrigin(req.headers) + req.url, {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            duplex: 'half',
+            method: req.method,
+            headers: <Record<string, string>>req.headers,
+          })
+        : new Request(getOrigin(req.headers) + req.url, {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            duplex: 'half',
+            method: req.method,
+            headers: <Record<string, string>>req.headers,
+            body: req.body,
+          });
     } catch (err) {
       res.statusCode = err.status || 400;
       res.end('Invalid request body');
       return;
     }
 
-    await setResponse(
-      res,
-      await server.respond(request, {
-        platform: res.locals,
-        getClientAddress() {
-          return (
-            (<string>req.headers['X-Forwarded-For']).split(',')[0] ||
-            req.socket?.remoteAddress
-          );
-        },
-      })
-    );
+    const rendered = await server.respond(request);
+    const body = await rendered.text();
+
+    return rendered
+      ? res
+          .writeHead(rendered.status, Object.fromEntries(rendered.headers))
+          .end(body)
+      : res.writeHead(404, 'Not Found').end();
   };
+}
+
+function isGetOrPatchRequest(method: HttpMethod) {
+  return ['GET', 'PATCH'].includes(method);
 }
 
 function getOrigin(headers) {
