@@ -7,7 +7,7 @@ export default mergeConfig(baseConfig, {
     coverage: {
       reporter: ['text', 'json', 'html'],
       provider: 'c8',
-      reportsDirectory: '../../coverage/sveltekit-adapter-firebase'
+      reportsDirectory: '../../coverage/sveltekit-adapter-firebase',
     },
-  }
+  },
 });
