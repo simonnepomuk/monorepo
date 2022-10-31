@@ -40,7 +40,12 @@
     "test": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "playwright test",
+        "commands": [
+          {
+            "command": "playwright test",
+            "forwardAllArgs": false
+          }
+        ],
         "cwd": "apps/test-app"
       }
     },
