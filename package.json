@@ -13,6 +13,7 @@
     "test": "nx test"
   },
   "devDependencies": {
+    "@angular/compiler-cli": "^14.2.8",
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-angular": "^17.0.0",
     "@commitlint/config-conventional": "^17.1.0",
@@ -27,7 +28,7 @@
     "@nrwl/linter": "14.7.6",
     "@nrwl/node": "14.7.6",
     "@nrwl/nx-plugin": "^14.7.11",
-    "@nrwl/workspace": "^14.7.6",
+    "@nrwl/workspace": "^14.8.6",
     "@nxext/vitest": "^14.1.0",
     "@playwright/test": "^1.25.0",
     "@sveltejs/adapter-auto": "next",
@@ -44,6 +45,7 @@
     "eslint": "~8.15.0",
     "eslint-config-prettier": "8.1.0",
     "execa": "^5.1.1",
+    "firebase-functions": "^3.24.1",
     "husky": "^8.0.1",
     "jest": "29.2.2",
     "jest-environment-jsdom": "29.2.2",
@@ -64,9 +66,5 @@
     "vite": "^3.1.0",
     "vitest": "^0.24.4",
     "vitest-mock-extended": "^1.0.5"
-  },
-  "dependencies": {
-    "@sveltejs/kit": "1.0.0-next.528",
-    "firebase-functions": "^3.24.1"
   }
 }
