@@ -31,6 +31,8 @@ jobs:
       - run: npx nx affected --target=lint --parallel=3
       - run: npx nx affected --target=build --parallel=3
       - run: npx nx affected --target=test --parallel=3 --coverage
+        env:
+          FIREBASE_TOKEN = {{ secrets.FIREBASE_TOKEN }}
       - name: Version
         if: github.ref == 'refs/heads/main'
         run: npx nx affected --base=last-release --target=version
