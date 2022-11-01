@@ -2,6 +2,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/api/src",
   "projectType": "application",
+  "implicitDependencies": ["sveltekit-adapter-firebase"],
   "targets": {
     "build": {
       "executor": "nx:run-commands",
@@ -9,7 +10,8 @@
       "options": {
         "commands": ["vite build"],
         "cwd": "apps/test-app"
-      }
+      },
+      "dependsOn": ["^build"]
     },
     "preview": {
       "executor": "nx:run-commands",
