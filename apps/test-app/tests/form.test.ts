@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test('Can post form data', async ({ page }) => {
   await page.goto('/sverdle');
+  await page.waitForLoadState('load', { timeout: 30000 });
   await page.locator(':nth-match(input,1)').click();
   await page.keyboard.type('party');
 
