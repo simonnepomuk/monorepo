@@ -35,7 +35,7 @@ jobs:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       - name: Version
         if: github.ref == 'refs/heads/main'
-        run: npx nx affected --base=last-release --target=version
+        run: npx nx affected --target=version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
