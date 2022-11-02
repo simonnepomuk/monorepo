@@ -1,5 +1,5 @@
 import { Builder } from '@sveltejs/kit';
-import { beforeEach, expect, vi } from 'vitest';
+import { beforeEach, vi } from 'vitest';
 import adapter from './adapter';
 import { join } from 'path';
 import { writeFileSync } from 'fs';
@@ -74,19 +74,52 @@ describe('Adapter Test', () => {
       minInstances: 1,
     };
     const functionName = 'testName';
+    const version = 'v2';
     const manifest = '{test: "test"}';
     builderMock.generateManifest.mockReturnValue(manifest);
     const initImport = `import { init } from './../function.js';`;
-    const firebaseImportV2 = `import { onRequest } from 'firebase-functions/v2/https';`;
-    const functionConstV2 = `export const ${functionName} = onRequest(${
-      functionOptions ? JSON.stringify(functionOptions) + ', ' : ''
-    }init(${manifest}));`;
-    const renderFunctionFile = `${initImport}\n${firebaseImportV2}\n\n${functionConstV2}\n`;
-    await adapter({ functionOptions, functionName }).adapt(
+    const firebaseImport = `import { onRequest } from 'firebase-functions/v2/https';`;
+    const functionOptionsParam = `${JSON.stringify(functionOptions)}, `;
+    const functionConst = `export const ${functionName} = onRequest(${functionOptionsParam}init(${manifest}));`;
+    const renderFunctionFile = `${initImport}\n${firebaseImport}\n\n${functionConst}\n`;
+    await adapter({ functionOptions, functionName, version }).adapt(
       builderMock as unknown as Builder
     );
     expect(writeFileSync).toHaveBeenCalledWith(
       join(defaultOptions.outDir, '.firebase', 'functions', 'render.js'),
+      renderFunctionFile
+    );
+  });
+
+  test('should throw error when v1 with functionOptions', async () => {
+    const version = 'v1';
+    expect(async () => {
+      await adapter({
+        version,
+        functionOptions: defaultOptions.functionOptions,
+      }).adapt(builderMock as unknown as Builder);
+    }).rejects.toThrowError();
+  });
+
+  test('should use v1 with options', async () => {
+    const version = 'v1';
+    const functionName = 'test';
+    const nodeVersion = '14';
+    const outDir = '../dist/';
+    await adapter({
+      version,
+      nodeVersion,
+      functionName,
+      outDir,
+    }).adapt(builderMock as unknown as Builder);
+    const manifest = '{test: "test"}';
+    builderMock.generateManifest.mockReturnValue(manifest);
+    const initImport = `import { init } from './../function.js';`;
+    const firebaseImport = `import { onRequest } from 'firebase-functions/v1/https';`;
+    const functionConst = `export const ${functionName} = onRequest(init(${manifest}));`;
+    const renderFunctionFile = `${initImport}\n${firebaseImport}\n\n${functionConst}\n`;
+    expect(writeFileSync).toHaveBeenCalledWith(
+      join(outDir, '.firebase', 'functions', 'render.js'),
       renderFunctionFile
     );
   });

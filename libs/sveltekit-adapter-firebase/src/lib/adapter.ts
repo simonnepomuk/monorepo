@@ -9,27 +9,34 @@ const distPath = fileURLToPath(new URL('.', import.meta.url).href);
 export type AdapterOptions = {
   outDir?: string;
   functionName?: string;
-  v2?: boolean;
+  version?: 'v1' | 'v2';
   nodeVersion?: '14' | '16';
   functionOptions?: HttpsOptions;
 };
 export default function (options?: AdapterOptions) {
   return {
     name: 'sveltekit-adapter-firebase',
-    async adapt(builder: Builder) {
+    adapt: async function (builder: Builder): Promise<void> {
+      if (options?.version === 'v1' && options?.functionOptions) {
+        throw new Error('Function options can only be used with v2 functions');
+      }
+
       const {
         outDir,
-        v2,
+        version,
         functionOptions,
         functionName,
         nodeVersion,
       }: AdapterOptions = {
         outDir: 'build',
-        v2: true,
+        version: 'v2',
         functionName: 'handler',
         nodeVersion: '16',
         ...options,
-        functionOptions: { concurrency: 500, ...options?.functionOptions },
+        functionOptions:
+          options?.version === 'v1'
+            ? null
+            : { concurrency: 500, ...options?.functionOptions },
       };
 
       // empty out existing build directories
@@ -42,16 +49,12 @@ export default function (options?: AdapterOptions) {
       builder.writeClient(publishDir);
       builder.writePrerendered(publishDir);
 
-      if (!v2 && functionOptions) {
-        throw new Error('Function options can only be used with v2 functions');
-      }
-
       builder.log.info('Generating cloud function for Firebase...');
 
       await generateCloudFunction({
         builder,
         outDir,
-        v2,
+        version,
         functionName,
         functionOptions,
       });
@@ -66,7 +69,7 @@ export default function (options?: AdapterOptions) {
 async function generateCloudFunction({
   builder,
   outDir,
-  v2,
+  version,
   functionName,
   functionOptions,
 }: { builder: Builder } & Omit<AdapterOptions, 'nodeVersion'>) {
@@ -95,10 +98,8 @@ async function generateCloudFunction({
   });
 
   const initImport = `import { init } from './../function.js';`;
-  const versionString = v2 ? 'v2' : 'v1';
-  const firebaseImport = `import { onRequest } from 'firebase-functions/${versionString}/https';`;
-  const functionOptionsParam =
-    v2 && functionOptions ? `${JSON.stringify(functionOptions)}, ` : '';
+  const firebaseImport = `import { onRequest } from 'firebase-functions/${version}/https';`;
+  const functionOptionsParam = functionOptions ? `${JSON.stringify(functionOptions)}, ` : '';
   const functionConst = `export const ${functionName} = onRequest(${functionOptionsParam}init(${manifest}));`;
   const renderFunctionFile = `${initImport}\n${firebaseImport}\n\n${functionConst}\n`;
 
