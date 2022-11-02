@@ -95,15 +95,12 @@ async function generateCloudFunction({
   });
 
   const initImport = `import { init } from './../function.js';`;
-  const firebaseImportV2 = `import { onRequest } from 'firebase-functions/v2/https';`;
-  const functionConstV2 = `export const ${functionName} = onRequest(${
-    functionOptions ? JSON.stringify(functionOptions) + ', ' : ''
-  }init(${manifest}));`;
-  const firebaseImportV1 = `import { https } from 'firebase-functions';`;
-  const functionConstV1 = `export const ${functionName} = https.onRequest(init(${manifest}));`;
-  const renderFunctionFile = `${initImport}\n${
-    v2 ? firebaseImportV2 : firebaseImportV1
-  }\n\n${v2 ? functionConstV2 : functionConstV1}\n`;
+  const versionString = v2 ? 'v2' : 'v1';
+  const firebaseImport = `import { onRequest } from 'firebase-functions/${versionString}/https';`;
+  const functionOptionsParam =
+    v2 && functionOptions ? `${JSON.stringify(functionOptions)}, ` : '';
+  const functionConst = `export const ${functionName} = onRequest(${functionOptionsParam}init(${manifest}));`;
+  const renderFunctionFile = `${initImport}\n${firebaseImport}\n\n${functionConst}\n`;
 
   writeFileSync(
     join(outDir, '.firebase', 'functions', 'render.js'),
