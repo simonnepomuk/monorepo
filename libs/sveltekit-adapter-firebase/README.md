@@ -127,6 +127,7 @@ export default {
 ### Monorepo
 
 Through the `outDir` configuration option the adapter should provide monorepo support (tested with Nx).  
+For monorepos with a workspace package.json like Nx you would need some form of scripting to generate the correct package.json with all dependencies.  
 `svelte.config.js`
 
 ```
