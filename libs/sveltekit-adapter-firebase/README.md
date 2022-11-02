@@ -1,5 +1,7 @@
 # sveltekit-adapter-firebase
-
+![npm](https://img.shields.io/npm/v/sveltekit-adapter-firebase?color=ff00)
+[![codecov](https://codecov.io/gh/simonnepomuk/monorepo/branch/main/graph/badge.svg?token=P2OL5DVRU9)](https://codecov.io/gh/simonnepomuk/monorepo)
+![CI](https://github.com/simonnepomuk/monorepo//actions/workflows/main.yml/badge.svg)  
 [Firebase](https://firebase.google.com/) adapter for
 [SvelteKit](https://github.com/sveltejs/kit).
 
