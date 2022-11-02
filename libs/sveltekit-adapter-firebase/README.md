@@ -1,4 +1,5 @@
 # sveltekit-adapter-firebase
+
 ![npm](https://img.shields.io/npm/v/sveltekit-adapter-firebase?color=ff00)
 [![codecov](https://codecov.io/gh/simonnepomuk/monorepo/branch/main/graph/badge.svg?token=P2OL5DVRU9)](https://codecov.io/gh/simonnepomuk/monorepo)
 ![CI](https://github.com/simonnepomuk/monorepo//actions/workflows/main.yml/badge.svg)  
@@ -63,7 +64,9 @@ export default {
 
 The following snippet shows the default configuration.  
 V2 is used by default because it allows for concurrency which should drastically reduce costs and cold-starts.  
-For further documentation on the functionOptions parameter visit the official [Firebase documentation](https://firebase.google.com/docs/functions/beta/reference/firebase-functions.https.httpsoptions.md).
+For further documentation on the functionOptions parameter visit the
+official [Firebase documentation](https://firebase.google.com/docs/functions/beta/reference/firebase-functions.https.httpsoptions.md)
+.
 
 ```
 /** @type {import('@sveltejs/kit').Config} */
@@ -129,7 +132,8 @@ export default {
 ### Monorepo
 
 Through the `outDir` configuration option the adapter should provide monorepo support (tested with Nx).  
-For monorepos with a workspace package.json like Nx you would need some form of scripting to generate the correct package.json with all dependencies.  
+For monorepos with a workspace package.json like Nx you would need some form of scripting to generate the correct
+package.json with all dependencies.  
 `svelte.config.js`
 
 ```
