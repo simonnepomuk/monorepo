@@ -167,7 +167,6 @@ export default {
     {
       "codebase": "frontend",
       "source": "dist/apps/frontend",
-      "runtime": "nodejs16"
     }
   ]
 }
