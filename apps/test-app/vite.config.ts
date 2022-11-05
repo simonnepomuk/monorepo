@@ -5,12 +5,12 @@ const config: UserConfig = {
   plugins: [sveltekit()],
   server: {
     fs: {
-      allow: ['../..']
-    }
+      allow: ['../..'],
+    },
   },
   build: {
     minify: false,
-  }
+  },
 };
 
 export default config;

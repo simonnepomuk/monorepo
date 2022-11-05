@@ -1,61 +1,68 @@
 <script lang="ts">
-  import {isMagicLink, signInWithMagicLink} from '$lib/client/firebase/client'
-  import {onMount} from 'svelte'
-  import {goto} from '$app/navigation'
-  import {clearMagicEmail, getMagicEmail} from '$lib/client/localStorage/magicEmail'
+  import {
+    isMagicLink,
+    signInWithMagicLink,
+  } from '$lib/client/firebase/client';
+  import { onMount } from 'svelte';
+  import { goto } from '$app/navigation';
+  import {
+    clearMagicEmail,
+    getMagicEmail,
+  } from '$lib/client/localStorage/magicEmail';
 
-  let email: string | null
+  let email: string | null;
 
-  type State = 'validating' | 'idle' | 'submitting' | Error
-  let state: State = 'validating'
+  type State = 'validating' | 'idle' | 'submitting' | Error;
+  let state: State = 'validating';
 
-  const handleSubmit: svelte.JSX.EventHandler<SubmitEvent,
-    HTMLFormElement> = async ({currentTarget}) => {
-    await login(new FormData(currentTarget).get('email') as string)
-  }
+  const handleSubmit: svelte.JSX.EventHandler<
+    SubmitEvent,
+    HTMLFormElement
+  > = async ({ currentTarget }) => {
+    await login(new FormData(currentTarget).get('email') as string);
+  };
 
   onMount(async () => {
-    if (!await isMagicLink(window.location.href)) {
-      state = new Error('Invalid magic link: How did you get here?!')
-      return
+    if (!(await isMagicLink(window.location.href))) {
+      state = new Error('Invalid magic link: How did you get here?!');
+      return;
     }
 
-    const magicEmail = getMagicEmail()
+    const magicEmail = getMagicEmail();
 
     if (!magicEmail) {
-      state = 'idle'
-      return
+      state = 'idle';
+      return;
     }
 
     await login(magicEmail).catch(() => {
       state = new Error(
         'We had a problem signing you in... Please try again? 😬'
-      )
-    })
-  })
-
+      );
+    });
+  });
 
   const login = async (magicEmail: string) => {
-    email = magicEmail
-    state = 'submitting'
+    email = magicEmail;
+    state = 'submitting';
 
     try {
-      const credential = await signInWithMagicLink(email, window.location.href)
-      const token = await credential.user.getIdToken()
+      const credential = await signInWithMagicLink(email, window.location.href);
+      const token = await credential.user.getIdToken();
       await fetch('/auth/session', {
         method: 'POST',
         headers: {
           authorization: `Bearer ${token}`,
         },
-      })
-      clearMagicEmail()
+      });
+      clearMagicEmail();
 
       //invalidAll is needed to trigger hook and set locals
-      await goto('/profile', {invalidateAll: true})
+      await goto('/profile', { invalidateAll: true });
     } catch (error) {
-      state = error
+      state = error;
     }
-  }
+  };
 </script>
 
 <svelte:head>

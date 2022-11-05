@@ -34,7 +34,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
       status: 200,
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return new Response('Invalid token', { status: 401 });
   }
 };

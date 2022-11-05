@@ -1,34 +1,34 @@
 <script lang="ts">
-  import {sendMagicLink} from '$lib/client/firebase/client'
-  import {setMagicEmail} from '$lib/client/localStorage/magicEmail'
+  import { sendMagicLink } from '$lib/client/firebase/client';
+  import { setMagicEmail } from '$lib/client/localStorage/magicEmail';
 
-  type FormState = 'idle' | 'submitting' | 'success' | Error
+  type FormState = 'idle' | 'submitting' | 'success' | Error;
 
-  let state: FormState = 'idle'
-  let email: string | null = null
+  let state: FormState = 'idle';
+  let email: string | null = null;
 
   const handleSubmit: svelte.JSX.EventHandler<
     SubmitEvent,
     HTMLFormElement
-    > = async ({currentTarget}) => {
-    email = new FormData(currentTarget).get('email') as string
-    const redirectUrl = `${window.location.origin}/auth/confirm`
+  > = async ({ currentTarget }) => {
+    email = new FormData(currentTarget).get('email') as string;
+    const redirectUrl = `${window.location.origin}/auth/confirm`;
 
-    state = 'submitting'
+    state = 'submitting';
 
     try {
-      await sendMagicLink(email, redirectUrl)
-      setMagicEmail(email)
-      state = 'success'
+      await sendMagicLink(email, redirectUrl);
+      setMagicEmail(email);
+      state = 'success';
     } catch (error) {
-      console.log(error)
+      console.log(error);
       if (error instanceof Error) {
-        state = error
+        state = error;
       } else {
-        state = new Error('something went wrong sending the magic link 😞')
+        state = new Error('something went wrong sending the magic link 😞');
       }
     }
-  }
+  };
 </script>
 
 <svelte:head>
@@ -44,8 +44,8 @@
         <p>You are not logged in!</p>
         <p>
           Please enter your email to login, using the latest in <strong
-        >Passwordless Authentication</strong
-        > 🪄💌!
+            >Passwordless Authentication</strong
+          > 🪄💌!
         </p>
       </div>
       <form
