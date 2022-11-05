@@ -8,6 +8,9 @@ const config = {
   preprocess: preprocess(),
 
   kit: {
+    alias: {
+      $stores: 'src/stores',
+    },
     adapter: adapter({ outDir: '../../dist/apps/test-app' }),
     csrf: {
       checkOrigin: false,

@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/apps/test-app",
+    "source": "dist/apps/test-app",
     "ignore": ["**/.firebase/**"],
     "cleanUrls": true,
     "rewrites": [
@@ -15,5 +15,13 @@
       "source": "dist/apps/test-app",
       "runtime": "nodejs16"
     }
-  ]
+  ],
+  "emulators": {
+    "auth": {
+      "port": 9099
+    },
+    "ui": {
+      "enabled": true
+    }
+  }
 }

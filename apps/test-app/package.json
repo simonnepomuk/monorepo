@@ -2,5 +2,9 @@
   "name": "test-app",
   "version": "0.0.1",
   "devDependencies": {},
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "firebase": "^9.13.0",
+    "firebase-admin": "^11.0.4"
+  }
 }

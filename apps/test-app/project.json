@@ -20,8 +20,9 @@
       }
     },
     "serve": {
-      "executor": "@prom-management/vite:serve",
+      "executor": "nx:run-commands",
       "options": {
+        "command": "vite",
         "cwd": "apps/test-app"
       }
     },
