@@ -99,7 +99,9 @@ async function generateCloudFunction({
 
   const initImport = `import { init } from './../function.js';`;
   const firebaseImport = `import { onRequest } from 'firebase-functions/${version}/https';`;
-  const functionOptionsParam = functionOptions ? `${JSON.stringify(functionOptions)}, ` : '';
+  const functionOptionsParam = functionOptions
+    ? `${JSON.stringify(functionOptions)}, `
+    : '';
   const functionConst = `export const ${functionName} = onRequest(${functionOptionsParam}init(${manifest}));`;
   const renderFunctionFile = `${initImport}\n${firebaseImport}\n\n${functionConst}\n`;
 
