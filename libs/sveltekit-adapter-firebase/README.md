@@ -75,10 +75,10 @@ export default {
     adapter: adapter({
       outDir: 'build',
       functionName: 'handler', //needs to correspond to function hosting.rewrites[0].function property in firebase.json
-      nodeVersion: '16',
-      v2: true,
-      functionOptions: {
-        concurrency: 500
+      nodeVersion: '16', // '16' or '14'
+      version: 'v1', // 'v1' or 'v2'
+      functionOptions: { // functionOptions are only available in v2
+        concurrency: 500 // max. 1000
       }
     }),
   },
