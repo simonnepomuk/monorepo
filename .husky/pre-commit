@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npx nx format:write && npx nx run-many --all --target=lint
+npx nx run-many --all --target=lint && npx nx format:write
