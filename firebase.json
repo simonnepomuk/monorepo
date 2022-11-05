@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "source": "dist/apps/test-app",
+    "public": "dist/apps/test-app",
     "ignore": ["**/.firebase/**"],
     "cleanUrls": true,
     "rewrites": [
