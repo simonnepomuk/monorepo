@@ -185,3 +185,5 @@ export default {
 If `functionOptions` for v1 are in high demand this might get added later on (**open to PR**).
 
 V2 also requires the _Blaze_ subscription but offers a free tier of 2 million requests per month.
+
+Firebase Web Frameworks are currently not supported.
