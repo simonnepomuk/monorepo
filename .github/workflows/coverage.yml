@@ -14,11 +14,15 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7
       - name: Set up Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
+          cache: 'pnpm'
           node-version: 16
-      - run: npm ci
+      - run: pnpm ci
       - name: Get installed Playwright version
         id: playwright-version
         run: echo "version=$(npm ls @playwright/test | grep @playwright | sed 's/.*@//')" >> $GITHUB_OUTPUT
@@ -31,8 +35,8 @@ jobs:
             ${{ runner.os }}-playwright-
       - name: Install Playwright's dependencies
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: npx playwright install --with-deps
-      - run: npx nx run-many --target=test --all --parallel=3 --coverage
+        run: pnpm exec playwright install --with-deps
+      - run: pnpm exec nx run-many --target=test --all --parallel=3 --coverage
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
       - uses: codecov/codecov-action@v3
