@@ -22,7 +22,7 @@ jobs:
         with:
           cache: 'pnpm'
           node-version: 16
-      - run: pnpm ci
+      - run: pnpm install
       - name: Get installed Playwright version
         id: playwright-version
         run: echo "version=$(pnpm ls @playwright/test | grep @playwright | sed 's/.*@//')" >> $GITHUB_OUTPUT
