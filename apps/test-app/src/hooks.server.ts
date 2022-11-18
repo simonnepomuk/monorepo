@@ -10,9 +10,6 @@ import type { DecodedIdToken } from 'firebase-admin/auth';
 const SIX_DAYS_IN_SECONDS = ONE_DAY_IN_SECONDS * 6;
 
 export const handle: Handle = async ({ event, resolve }) => {
-  console.log('------------------------------------');
-  console.log(event.platform);
-  console.log('------------------------------------');
   if (event.cookies.get('session')) {
     const token = await getIdTokenFromSessionCookie(
       event.cookies.get('session') || null

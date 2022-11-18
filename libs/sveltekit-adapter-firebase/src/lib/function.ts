@@ -4,18 +4,13 @@ import './shims.js';
 // @ts-ignore
 import { Server } from '0SERVER';
 import { SSRManifest } from '@sveltejs/kit';
-import {
-  Request as ExpressRequest,
-  Response as ExpressResponse,
-} from 'express';
+import type { Request as FirebaseRequest } from 'firebase-functions/v2/https';
+import type { Response as ExpressResponse } from 'express';
 import { HttpMethod } from '@sveltejs/kit/types/private';
 
 export function init(
   manifest: SSRManifest
-): (
-  request: ExpressRequest,
-  response: ExpressResponse
-) => void | Promise<void> {
+): (request: FirebaseRequest, response: ExpressResponse) => Promise<void> {
   const server = new Server(manifest);
 
   let initPromise = server.init({
@@ -53,7 +48,7 @@ export function init(
       return;
     }
 
-    const rendered = await server.respond(request);
+    const rendered = await server.respond(request, { platform: res.locals });
     const body = await rendered.text();
 
     return rendered

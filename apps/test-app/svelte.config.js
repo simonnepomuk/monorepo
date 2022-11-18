@@ -11,7 +11,10 @@ const config = {
     alias: {
       $stores: 'src/stores',
     },
-    adapter: adapter({ outDir: '../../dist/apps/test-app' }),
+    adapter: adapter({
+      outDir: '../../dist/apps/test-app',
+      useWebFrameworkBeta: true,
+    }),
     csrf: {
       checkOrigin: false,
     },
