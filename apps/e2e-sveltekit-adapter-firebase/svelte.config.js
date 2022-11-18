@@ -12,7 +12,7 @@ const config = {
       $stores: 'src/stores',
     },
     adapter: adapter({
-      outDir: '../../dist/apps/test-app',
+      outDir: '../../dist/apps/e2e-sveltekit-adapter-firebase',
       useWebFrameworkBeta: true,
     }),
     csrf: {

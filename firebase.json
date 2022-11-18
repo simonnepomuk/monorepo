@@ -2,5 +2,13 @@
   "hosting": {
     "source": "dist/apps/test-app",
     "cleanUrls": true
+  },
+  "emulators": {
+    "auth": {
+      "port": 9099
+    },
+    "ui": {
+      "enabled": true
+    }
   }
 }

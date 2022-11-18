@@ -3,6 +3,7 @@ import { join } from 'path';
 import { fileURLToPath } from 'url';
 import { Builder } from '@sveltejs/kit';
 import { HttpsOptions } from 'firebase-functions/lib/v2/providers/https';
+import { spawnSync } from 'child_process';
 
 const distPath = fileURLToPath(new URL('.', import.meta.url).href);
 const WEB_FRAMEWORK_FUNCTION_NAME = 'handle';
@@ -69,6 +70,14 @@ export default function (options?: AdapterOptions) {
         outDir,
         nodeVersion,
         useWebFrameworkBeta,
+      });
+
+      console.log(
+        'Installing dependencies in functions directory. This might take a while...'
+      );
+      spawnSync('npm', ['install'], {
+        cwd: outDir,
+        stdio: 'inherit',
       });
     },
   };

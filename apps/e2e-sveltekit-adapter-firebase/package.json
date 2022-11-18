@@ -1,5 +1,5 @@
 {
-  "name": "test-app",
+  "name": "e2e-sveltekit-adapter-firebase",
   "version": "0.0.1",
   "type": "module",
   "dependencies": {

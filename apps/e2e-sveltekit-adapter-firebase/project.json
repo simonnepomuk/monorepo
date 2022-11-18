@@ -1,6 +1,8 @@
 {
+  "name": "e2e-sveltekit-adapter-firebase",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/api/src",
+  "root": "apps/e2e-sveltekit-adapter-firebase",
+  "sourceRoot": "apps/e2e-sveltekit-adapter-firebase/src",
   "projectType": "application",
   "implicitDependencies": ["sveltekit-adapter-firebase"],
   "targets": {
@@ -9,7 +11,7 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "commands": ["vite build"],
-        "cwd": "apps/test-app"
+        "cwd": "apps/e2e-sveltekit-adapter-firebase"
       },
       "dependsOn": ["^build"]
     },
@@ -23,21 +25,21 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "vite",
-        "cwd": "apps/test-app"
+        "cwd": "apps/e2e-sveltekit-adapter-firebase"
       }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/test-app/**/*.ts"]
+        "lintFilePatterns": ["apps/e2e-sveltekit-adapter-firebase/**/*.ts"]
       }
     },
     "format": {
       "executor": "nx:run-commands",
       "options": {
         "command": "prettier --plugin-search-dir . --write .",
-        "cwd": "apps/test-app"
+        "cwd": "apps/e2e-sveltekit-adapter-firebase"
       }
     },
     "test": {
@@ -49,7 +51,7 @@
             "forwardAllArgs": false
           }
         ],
-        "cwd": "apps/test-app"
+        "cwd": "apps/e2e-sveltekit-adapter-firebase"
       },
       "dependsOn": ["build"]
     },
@@ -57,7 +59,7 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-        "cwd": "apps/test-app"
+        "cwd": "apps/e2e-sveltekit-adapter-firebase"
       }
     }
   },
