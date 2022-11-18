@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "source": "dist/apps/test-app",
+    "source": "dist/apps/e2e-sveltekit-adapter-firebase",
     "cleanUrls": true
   },
   "emulators": {
