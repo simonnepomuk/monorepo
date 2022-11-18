@@ -1,9 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 test('Can post form data', async ({ page }) => {
-  await page.goto('/sverdle');
-  await page.waitForLoadState('load', { timeout: 30000 });
-  await page.waitForLoadState('networkidle', { timeout: 5000 });
+  await page.goto('/sverdle', { waitUntil: 'networkidle' });
   await page.keyboard.type('party');
 
   await Promise.all([
