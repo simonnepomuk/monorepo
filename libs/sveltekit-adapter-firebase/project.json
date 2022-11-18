@@ -1,5 +1,7 @@
 {
+  "name": "sveltekit-adapter-firebase",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "root": "libs/sveltekit-adapter-firebase",
   "sourceRoot": "libs/sveltekit-adapter-firebase/src",
   "projectType": "library",
   "targets": {
