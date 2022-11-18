@@ -11,7 +11,9 @@ const config = {
     alias: {
       $stores: 'src/stores',
     },
-    adapter: adapter({ outDir: '../../dist/apps/test-app' }),
+    adapter: adapter({
+      outDir: '../../dist/apps/e2e-sveltekit-adapter-firebase',
+    }),
     csrf: {
       checkOrigin: false,
     },

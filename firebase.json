@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/apps/test-app",
+    "public": "dist/apps/e2e-sveltekit-adapter-firebase",
     "ignore": ["**/.firebase/**"],
     "cleanUrls": true,
     "rewrites": [
@@ -12,7 +12,7 @@
   },
   "functions": [
     {
-      "source": "dist/apps/test-app",
+      "source": "dist/apps/e2e-sveltekit-adapter-firebase",
       "runtime": "nodejs16"
     }
   ],
