@@ -17,8 +17,6 @@ const privateKey = FIREBASE_ADMIN_PRIVATE_KEY?.replace(/\\n/g, '\n');
 const apiKey = PUBLIC_FIREBASE_API_KEY;
 
 if (!projectId || !clientEmail || !privateKey || !apiKey) {
-  console.log(process.env);
-  console.log(projectId, clientEmail, privateKey, apiKey);
   //throw new Error('Firebase Admin environment variables not set');
 }
 

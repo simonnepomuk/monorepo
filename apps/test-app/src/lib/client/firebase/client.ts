@@ -22,7 +22,6 @@ const firebaseConfig: FirebaseOptions = {
 };
 export const getClientApp: () => Promise<FirebaseApp> = async () => {
   if (getApps().length) return getApp();
-  console.log(firebaseConfig);
 
   const clientApp = initializeApp(firebaseConfig);
   const auth = getAuth(clientApp);
