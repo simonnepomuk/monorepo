@@ -1,7 +1,6 @@
 {
   "name": "sveltekit-adapter-firebase",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "root": "libs/sveltekit-adapter-firebase",
   "sourceRoot": "libs/sveltekit-adapter-firebase/src",
   "projectType": "library",
   "targets": {
@@ -20,15 +19,34 @@
       }
     },
     "build": {
-      "executor": "@nrwl/js:tsc",
+      "executor": "@nrwl/rollup:rollup",
       "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/libs/sveltekit-adapter-firebase",
-        "tsConfig": "libs/sveltekit-adapter-firebase/tsconfig.lib.json",
-        "packageJson": "libs/sveltekit-adapter-firebase/package.json",
         "main": "libs/sveltekit-adapter-firebase/index.ts",
-        "assets": ["libs/sveltekit-adapter-firebase/*.md"],
-        "source": false
+        "outputPath": "dist/libs/sveltekit-adapter-firebase",
+        "rollupConfig": "libs/sveltekit-adapter-firebase/rollup.config.cjs",
+        "generateExportsField": true,
+        "compiler": "babel",
+        "format": ["esm"],
+        "tsConfig": "libs/sveltekit-adapter-firebase/tsconfig.lib.json",
+        "project": "libs/sveltekit-adapter-firebase/package.json",
+        "assets": [
+          {
+            "glob": "libs/sveltekit-adapter-firebase/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
       }
     },
     "version": {
