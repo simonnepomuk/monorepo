@@ -91,22 +91,23 @@ async function generateCloudFunction({
   functionOptions,
   useWebFrameworkBeta,
 }: { builder: Builder } & Omit<AdapterOptions, 'nodeVersion'>) {
-  builder.mkdirp(join(outDir, '.firebase', 'functions'));
+  builder.mkdirp(join(outDir, '.firebase', 'function'));
 
   builder.writeServer(join(outDir, '.firebase', 'server'));
 
   const replace = {
-    '0SERVER': './server/index.js', // digit prefix prevents CJS build from using this as a variable name, which would also get replaced
+    '0SERVER': './../server/index.js', // digit prefix prevents CJS build from using this as a variable name, which would also get replaced
   };
 
-  const filter = (name: string) => {
-    if (name === 'lib') {
-      return true;
-    }
-    return !name.includes('adapter') && name.endsWith('.js');
-  };
-
-  builder.copy(`${distPath}`, join(outDir, '.firebase'), { filter, replace });
+  builder.copy(
+    join(`${distPath}`, 'function.js'),
+    join(outDir, '.firebase', 'function', 'function.js'),
+    { replace }
+  );
+  builder.copy(
+    join(`${distPath}`, '_tslib.js'),
+    join(outDir, '.firebase', 'function', '_tslib.js')
+  );
 
   builder.log.minor('Generating cloud function...');
 
@@ -115,7 +116,7 @@ async function generateCloudFunction({
     format: 'esm',
   });
 
-  const initImport = `import { init } from './../function.js';`;
+  const initImport = `import { init } from './function.js';`;
   const firebaseFunctionImport = `import { onRequest } from 'firebase-functions/${version}/https';`;
   const imports = [
     initImport,
@@ -127,11 +128,11 @@ async function generateCloudFunction({
   const functionConst = useWebFrameworkBeta
     ? `export const ${WEB_FRAMEWORK_FUNCTION_NAME} = init(${manifest});`
     : `export const ${functionName} = onRequest(${functionOptionsParam}init(${manifest}));`;
-  const renderFunctionFile = `${imports.join('\n')}\n\n${functionConst}\n`;
+  const entrypointFile = `${imports.join('\n')}\n\n${functionConst}\n`;
 
   writeFileSync(
-    join(outDir, '.firebase', 'functions', 'render.js'),
-    renderFunctionFile
+    join(outDir, '.firebase', 'function', 'entrypoint.js'),
+    entrypointFile
   );
 }
 
@@ -156,7 +157,7 @@ function generateProductionPackageJson({
       ...packageJson?.dependencies,
       'firebase-functions': '^4.0.1',
     },
-    main: '.firebase/functions/render.js',
+    main: '.firebase/function/entrypoint.js',
     engines: {
       node: nodeVersion,
     },
