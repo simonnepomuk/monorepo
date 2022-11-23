@@ -18,7 +18,7 @@
     "preview": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["firebase serve"]
+        "commands": ["firebase emulators:start"]
       }
     },
     "serve": {

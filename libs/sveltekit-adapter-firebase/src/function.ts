@@ -1,4 +1,4 @@
-import './shims.js';
+import './shims';
 // 0SERVER gets replaced by real import during build
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -8,7 +8,32 @@ import {
   Request as ExpressRequest,
   Response as ExpressResponse,
 } from 'express';
-import { HttpMethod } from '@sveltejs/kit/types/private';
+import {
+  IncomingHttpHeaders,
+  OutgoingHttpHeader,
+  OutgoingHttpHeaders,
+} from 'http';
+
+type HttpMethod = 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+
+declare module 'express' {
+  interface Request {
+    method: 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+    headers: IncomingHttpHeaders;
+    url: string;
+    body: unknown;
+    statusCode: number;
+  }
+
+  interface Response {
+    statusCode: number;
+    end: (chunk?: unknown, cb?: () => void) => void;
+    writeHead: (
+      statusCode: number,
+      headers?: OutgoingHttpHeaders | OutgoingHttpHeader[] | string
+    ) => this;
+  }
+}
 
 export function init(
   manifest: SSRManifest
@@ -45,7 +70,7 @@ export function init(
             duplex: 'half',
             method: req.method,
             headers: <Record<string, string>>req.headers,
-            body: req.body,
+            body: req.body as BodyInit,
           });
     } catch (err) {
       res.statusCode = err.status || 400;
