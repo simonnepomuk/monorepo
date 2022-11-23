@@ -49,7 +49,7 @@ describe('Adapter Test', () => {
     expect(builderMock.writePrerendered).toHaveBeenCalledWith(publishDir);
     expect(builderMock.rimraf).toHaveBeenCalledWith(defaultOptions.outDir);
     expect(builderMock.mkdirp).toHaveBeenCalledWith(
-      join(defaultOptions.outDir, '.firebase', 'functions')
+      join(defaultOptions.outDir, '.firebase', 'function')
     );
     expect(builderMock.writeServer).toHaveBeenCalledWith(
       join(defaultOptions.outDir, '.firebase', 'server')
@@ -77,7 +77,7 @@ describe('Adapter Test', () => {
     const version = 'v2';
     const manifest = '{test: "test"}';
     builderMock.generateManifest.mockReturnValue(manifest);
-    const initImport = `import { init } from './../function.js';`;
+    const initImport = `import { init } from './function.js';`;
     const firebaseImport = `import { onRequest } from 'firebase-functions/v2/https';`;
     const functionOptionsParam = `${JSON.stringify(functionOptions)}, `;
     const functionConst = `export const ${functionName} = onRequest(${functionOptionsParam}init(${manifest}));`;
@@ -86,7 +86,7 @@ describe('Adapter Test', () => {
       builderMock as unknown as Builder
     );
     expect(writeFileSync).toHaveBeenCalledWith(
-      join(defaultOptions.outDir, '.firebase', 'functions', 'render.js'),
+      join(defaultOptions.outDir, '.firebase', 'function', 'entrypoint.js'),
       renderFunctionFile
     );
   });
@@ -114,12 +114,12 @@ describe('Adapter Test', () => {
     }).adapt(builderMock as unknown as Builder);
     const manifest = '{test: "test"}';
     builderMock.generateManifest.mockReturnValue(manifest);
-    const initImport = `import { init } from './../function.js';`;
+    const initImport = `import { init } from './function.js';`;
     const firebaseImport = `import { onRequest } from 'firebase-functions/v1/https';`;
     const functionConst = `export const ${functionName} = onRequest(init(${manifest}));`;
     const renderFunctionFile = `${initImport}\n${firebaseImport}\n\n${functionConst}\n`;
     expect(writeFileSync).toHaveBeenCalledWith(
-      join(outDir, '.firebase', 'functions', 'render.js'),
+      join(outDir, '.firebase', 'function', 'entrypoint.js'),
       renderFunctionFile
     );
   });
