@@ -104,7 +104,6 @@ async function generateCloudFunction({
 
   const manifest = builder.generateManifest({
     relativePath: '../server',
-    format: 'esm',
   });
 
   const initImport = `import { init } from './function.js';`;

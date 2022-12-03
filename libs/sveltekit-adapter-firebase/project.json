@@ -12,10 +12,9 @@
       }
     },
     "test": {
-      "executor": "nx:run-commands",
+      "executor": "@nrwl/vite:test",
       "options": {
-        "command": "vitest run",
-        "cwd": "libs/sveltekit-adapter-firebase"
+        "config": "vitest.config.ts"
       }
     },
     "build": {

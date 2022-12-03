@@ -57,7 +57,6 @@ describe('Adapter Test', () => {
     expect(builderMock.copy).toHaveBeenCalled();
     expect(builderMock.generateManifest).toHaveBeenCalledWith({
       relativePath: '../server',
-      format: 'esm',
     });
   });
 
