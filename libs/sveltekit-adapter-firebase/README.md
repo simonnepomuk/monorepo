@@ -48,13 +48,13 @@ export default {
     "rewrites": [
       {
         "source": "**",
-        "function": "handler",
+        "function": "handler"
       }
     ]
   },
   "functions": [
     {
-      "source": "build",
+      "source": "build"
     }
   ]
 }
@@ -123,7 +123,7 @@ export default {
   },
   "functions": [
     {
-      "source": "build",
+      "source": "build"
     }
   ]
 }
@@ -160,7 +160,7 @@ export default {
     "rewrites": [
       {
         "source": "**",
-        "function": "handler",
+        "function": "handler"
       }
     ]
   },
@@ -173,7 +173,7 @@ export default {
     },
     {
       "codebase": "frontend",
-      "source": "dist/apps/frontend",
+      "source": "dist/apps/frontend"
     }
   ]
 }

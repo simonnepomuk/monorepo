@@ -30,6 +30,7 @@ declare module 'express' {
       statusCode: number,
       headers?: OutgoingHttpHeaders | OutgoingHttpHeader[] | string
     ) => this;
+    locals: unknown;
   }
 }
 

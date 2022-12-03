@@ -49,7 +49,7 @@ export default function (options?: AdapterOptions) {
       builder.log.minor(`Publishing to "${outDir}"`);
 
       builder.log.minor('Copying assets...');
-      const publishDir = `${outDir}${builder.config.kit.paths.base}`;
+      const publishDir = join(outDir, builder.config.kit.paths.base, 'hosting');
       builder.writeClient(publishDir);
       builder.writePrerendered(publishDir);
 
@@ -73,7 +73,7 @@ export default function (options?: AdapterOptions) {
       });
 
       console.log(
-        'Installing dependencies in functions directory. This might take a while...'
+        'Installing dependencies in output directory. This might take a while...'
       );
       spawnSync('npm', ['install'], {
         cwd: outDir,
@@ -91,9 +91,9 @@ async function generateCloudFunction({
   functionOptions,
   useWebFrameworkBeta,
 }: { builder: Builder } & Omit<AdapterOptions, 'nodeVersion'>) {
-  builder.mkdirp(join(outDir, '.firebase', 'function'));
+  builder.mkdirp(join(outDir, 'function'));
 
-  builder.writeServer(join(outDir, '.firebase', 'server'));
+  builder.writeServer(join(outDir, 'server'));
 
   const replace = {
     '0SERVER': './../server/index.js', // digit prefix prevents CJS build from using this as a variable name, which would also get replaced
@@ -101,12 +101,12 @@ async function generateCloudFunction({
 
   builder.copy(
     join(`${distPath}`, 'function.js'),
-    join(outDir, '.firebase', 'function', 'function.js'),
+    join(outDir, 'function', 'function.js'),
     { replace }
   );
   builder.copy(
     join(`${distPath}`, '_tslib.js'),
-    join(outDir, '.firebase', 'function', '_tslib.js')
+    join(outDir, 'function', '_tslib.js')
   );
 
   builder.log.minor('Generating cloud function...');
@@ -117,11 +117,10 @@ async function generateCloudFunction({
   });
 
   const initImport = `import { init } from './function.js';`;
-  const firebaseFunctionImport = `import { onRequest } from 'firebase-functions/${version}/https';`;
-  const imports = [
-    initImport,
-    useWebFrameworkBeta ? '' : firebaseFunctionImport,
-  ];
+  const firebaseFunctionImport = useWebFrameworkBeta
+    ? undefined
+    : `import { onRequest } from 'firebase-functions/${version}/https';`;
+  const imports = [initImport, firebaseFunctionImport].filter(Boolean);
   const functionOptionsParam = functionOptions
     ? `${JSON.stringify(functionOptions)}, `
     : '';
@@ -130,10 +129,7 @@ async function generateCloudFunction({
     : `export const ${functionName} = onRequest(${functionOptionsParam}init(${manifest}));`;
   const entrypointFile = `${imports.join('\n')}\n\n${functionConst}\n`;
 
-  writeFileSync(
-    join(outDir, '.firebase', 'function', 'entrypoint.js'),
-    entrypointFile
-  );
+  writeFileSync(join(outDir, 'function', 'entrypoint.js'), entrypointFile);
 }
 
 function generateProductionPackageJson({
@@ -145,9 +141,9 @@ function generateProductionPackageJson({
   const packageJson = JSON.parse(packageJsonString.toString());
   const webFrameworkBetaConfig = {
     directories: {
-      serve: '.',
+      serve: 'hosting',
     },
-    files: ['*', '**/*'],
+    files: ['hosting', 'function', 'server'],
     scripts: {
       build: 'echo "No build needed"',
     },
@@ -157,7 +153,7 @@ function generateProductionPackageJson({
       ...packageJson?.dependencies,
       'firebase-functions': '^4.0.1',
     },
-    main: '.firebase/function/entrypoint.js',
+    main: 'function/entrypoint.js',
     engines: {
       node: nodeVersion,
     },
