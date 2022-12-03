@@ -45,3 +45,4 @@ Thumbs.db
 .netlify
 /firebase-debug.log
 /ui-debug.log
+/.firebase/

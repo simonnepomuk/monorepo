@@ -1,21 +1,8 @@
 {
   "hosting": {
-    "public": "dist/apps/e2e-sveltekit-adapter-firebase",
-    "ignore": ["**/.firebase/**"],
-    "cleanUrls": true,
-    "rewrites": [
-      {
-        "source": "**",
-        "function": "handler"
-      }
-    ]
+    "source": "dist/apps/e2e-sveltekit-adapter-firebase",
+    "cleanUrls": true
   },
-  "functions": [
-    {
-      "source": "dist/apps/e2e-sveltekit-adapter-firebase",
-      "runtime": "nodejs16"
-    }
-  ],
   "emulators": {
     "auth": {
       "port": 9099

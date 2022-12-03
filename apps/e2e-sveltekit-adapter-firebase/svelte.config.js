@@ -13,6 +13,7 @@ const config = {
     },
     adapter: adapter({
       outDir: '../../dist/apps/e2e-sveltekit-adapter-firebase',
+      useWebFrameworkBeta: true,
     }),
     csrf: {
       checkOrigin: false,

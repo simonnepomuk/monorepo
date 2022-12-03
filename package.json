@@ -34,6 +34,7 @@
     "@nrwl/node": "^15.2.1",
     "@nrwl/nx-plugin": "^15.2.1",
     "@nrwl/rollup": "^15.2.1",
+    "@nrwl/vite": "^15.2.1",
     "@nrwl/workspace": "^15.2.1",
     "@playwright/test": "^1.25.0",
     "@rollup/plugin-multi-entry": "^6.0.0",
@@ -73,6 +74,8 @@
     "tslib": "^2.3.1",
     "typescript": "~4.7.4",
     "vite": "^3.2.4",
-    "vitest": "^0.24.5"
+    "vite-plugin-eslint": "^1.6.0",
+    "vite-tsconfig-paths": "^3.5.2",
+    "vitest": "^0.25.1"
   }
 }
