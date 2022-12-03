@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.13](https://github.com/simonnepomuk/monorepo/compare/sveltekit-adapter-firebase-0.1.12...sveltekit-adapter-firebase-0.1.13) (2022-12-03)
+
+
+### Bug Fixes
+
+* sveltekit builder generateManifest API removed format option ([6ea769f](https://github.com/simonnepomuk/monorepo/commit/6ea769f7bcbf2b2d4235652b3dc3f27e5035794c))
+
+
+
 ## [0.1.2](https://github.com/simonnepomuk/monorepo/compare/sveltekit-adapter-firebase-0.1.1...sveltekit-adapter-firebase-0.1.2) (2022-10-29)
 
 
